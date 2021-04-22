@@ -18,6 +18,16 @@ MonoBehaviour:
   - m_Neighbors: 0100000001000000010000000100000001000000010000000100000001000000
     m_Sprites:
     - {fileID: -7832389824997676707, guid: 51b85d164f601864c9a3268205a75bbf, type: 3}
+    - {fileID: 6972465368094823745, guid: 51b85d164f601864c9a3268205a75bbf, type: 3}
+    m_AnimationSpeed: 1
+    m_PerlinScale: 0.6
+    m_RuleTransform: 0
+    m_Output: 1
+    m_ColliderType: 1
+    m_RandomTransform: 1
+  - m_Neighbors: 0000000002000000000000000100000001000000000000000100000000000000
+    m_Sprites:
+    - {fileID: 1958745200148787322, guid: 51b85d164f601864c9a3268205a75bbf, type: 3}
     m_AnimationSpeed: 1
     m_PerlinScale: 0.5
     m_RuleTransform: 0
