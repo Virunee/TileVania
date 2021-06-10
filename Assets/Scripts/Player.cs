@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,11 @@ public class Player : MonoBehaviour
     [SerializeField] float runSpeed = 10f;
     [SerializeField] float jumpSpeed = 5f;
     [SerializeField] float climbSpeed = 5f;
+    [SerializeField] float jumpDuration = 0.2f;
 
     //State
     bool isAlive = true;
+    bool isJumping = false;
 
     // Components
     Rigidbody2D rb;
@@ -21,6 +24,8 @@ public class Player : MonoBehaviour
 
     string GROUND_LAYER = "Ground";
     string CLIMBING_LAYER = "Climbing";
+    string ENEMY_LAYER = "Enemy";
+    string HAZARDS_LAYER = "Hazards";
 
     void Start()
     {
@@ -34,10 +39,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!isAlive) { return; }
         Run();
         Jump();
         FlipSprite();
         ClimbLadder();
+        Die();
     }
 
     private void Run()
@@ -48,29 +55,49 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("Running", Mathf.Abs(horizontalMove) > Mathf.Epsilon ? true : false);
     }
 
+    private void Die()
+    {
+        if (!myBodyCollider.IsTouchingLayers(LayerMask.GetMask(ENEMY_LAYER, HAZARDS_LAYER))) { return; }
+        isAlive = false;
+        myAnimator.SetBool("Dead", !isAlive);
+        rb.velocity = new Vector2(25f, 25f);
+        runSpeed = 0f;
+    }
+
     private void Jump()
     {
-        if(!myFeet.IsTouchingLayers(LayerMask.GetMask(GROUND_LAYER))){ return; }
+        if((!myFeet.IsTouchingLayers(LayerMask.GetMask(GROUND_LAYER)) && !myFeet.IsTouchingLayers(LayerMask.GetMask(CLIMBING_LAYER))) || isJumping){ return; }
 
         if (Input.GetButtonDown("Jump"))
         {
+            isJumping = true;
             Vector2 jumpVelocityToAdd = new Vector2(rb.velocity.x, jumpSpeed);
             rb.velocity += jumpVelocityToAdd;
+            StartCoroutine(resetJump());
         }
+    }
+
+    IEnumerator resetJump()
+    {
+        yield return new WaitForSeconds(jumpDuration);
+        isJumping = false;
     }
 
     private void ClimbLadder()
     {
-        if (!myFeet.IsTouchingLayers(LayerMask.GetMask(CLIMBING_LAYER))) {
+        if (!myBodyCollider.IsTouchingLayers(LayerMask.GetMask(CLIMBING_LAYER)) || isJumping) {
             myAnimator.SetBool("Climbing", false);
             rb.gravityScale = startingGravity;
             return;
         }
-        rb.gravityScale = 0f;
-        float verticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
-        Vector2 climbVelocity = new Vector2(rb.velocity.x, verticalMove);
-        rb.velocity = climbVelocity;
-        myAnimator.SetBool("Climbing", Mathf.Abs(verticalMove) > Mathf.Epsilon ? true : false);
+        
+        if(myBodyCollider.IsTouchingLayers(LayerMask.GetMask(CLIMBING_LAYER)) && !isJumping) {
+            rb.gravityScale = 0f;
+            float verticalMove = Input.GetAxisRaw("Vertical") * climbSpeed;
+            Vector2 climbVelocity = new Vector2(rb.velocity.x, verticalMove);
+            rb.velocity = climbVelocity;
+            myAnimator.SetBool("Climbing", Mathf.Abs(verticalMove) > Mathf.Epsilon ? true : false);
+        }
     }
 
     private void FlipSprite()
