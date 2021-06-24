@@ -62,6 +62,7 @@ public class Player : MonoBehaviour
         myAnimator.SetBool("Dead", !isAlive);
         rb.velocity = new Vector2(25f, 25f);
         runSpeed = 0f;
+        FindObjectOfType<GameSession>().ProcessPlayerDeath();
     }
 
     private void Jump()

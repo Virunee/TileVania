@@ -44,9 +44,6 @@ TagManager:
   - name: Background
     uniqueID: 3605140069
     locked: 0
-  - name: Fireworks
-    uniqueID: 2697373263
-    locked: 0
   - name: Climbing
     uniqueID: 3941477517
     locked: 0
@@ -64,4 +61,7 @@ TagManager:
     locked: 0
   - name: Interactables
     uniqueID: 2685215459
+    locked: 0
+  - name: Fireworks
+    uniqueID: 2697373263
     locked: 0
