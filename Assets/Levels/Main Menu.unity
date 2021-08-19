@@ -7330,7 +7330,7 @@ PrefabInstance:
     - target: {fileID: 307042000313689282, guid: a35ca1d09eec943468faba37c3a4ab20, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
-      objectReference: {fileID: 6211375530486851805}
+      objectReference: {fileID: 0}
     - target: {fileID: 307042000970358370, guid: a35ca1d09eec943468faba37c3a4ab20, type: 3}
       propertyPath: m_Name
       value: Cameras
@@ -7430,7 +7430,7 @@ PrefabInstance:
     - target: {fileID: 6471637565587206256, guid: a35ca1d09eec943468faba37c3a4ab20, type: 3}
       propertyPath: m_BoundingShape2D
       value: 
-      objectReference: {fileID: 6211375530486851805}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 813858320, guid: a35ca1d09eec943468faba37c3a4ab20, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a35ca1d09eec943468faba37c3a4ab20, type: 3}

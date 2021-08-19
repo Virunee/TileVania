@@ -55,7 +55,7 @@ public class GameSession : MonoBehaviour
 
     private void ResetGameSession()
     {
-        SceneManager.LoadScene(0);
+        loadSceneAfterDelay(0);
         Destroy(gameObject);
     }
 
@@ -63,6 +63,13 @@ public class GameSession : MonoBehaviour
     {
         playerLives--;
         UpdateLivesAndScoresText();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(loadSceneAfterDelay(SceneManager.GetActiveScene().buildIndex));
+        
+    }
+
+    IEnumerator loadSceneAfterDelay(int sceneIndex)
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        SceneManager.LoadScene(sceneIndex);
     }
 }
